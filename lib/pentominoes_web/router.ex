@@ -17,8 +17,7 @@ defmodule PentominoesWeb.Router do
   scope "/", PentominoesWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
-    live"/play", GameLive.Picker
+    live"/", GameLive.Picker
     live "/game/:puzzle", GameLive
   end
 
