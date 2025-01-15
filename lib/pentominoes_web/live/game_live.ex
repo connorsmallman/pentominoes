@@ -1,0 +1,59 @@
+defmodule PentominoesWeb.GameLive do
+  use PentominoesWeb, :live_view
+
+  alias PentominoesWeb.GameLive.Board
+
+  def mount(%{"puzzle" => puzzle}, _session, socket) do
+    {:ok, assign(socket, puzzle: puzzle)}
+  end
+
+  def render(assigns) do
+    ~H"""
+    <section class="container">
+      <div class="grid grid-cols-2">
+        <div>
+          <h1 class="font-heavy text-3xl text-center">
+            Welcome to Pento!
+          </h1>
+        </div>
+        <.help />
+      </div>
+      <.live_component module={Board} puzzle={ @puzzle } id="game" />
+    </section>
+    """
+  end
+
+  def help(assigns) do
+    ~H"""
+    <div>
+      <.help_button />
+      <.help_page />
+    </div>
+    """
+  end
+
+  attr :class, :string, default: "h-8 w-8 text-slate hover:text-slate-400"
+  def help_button(assigns) do
+    ~H"""
+    <button phx-click={JS.toggle(to: "#info")}>
+      <.icon name="hero-question-mark-circle-solid" class={@class} />
+    </button>
+    """
+  end
+
+  def help_page(assigns) do
+    ~H"""
+    <div id="info" hidden class="fixed hidden bg-white mx-4 border border-2">
+      <ul class="mx-8 list-disc">
+        <li>Click on a pento to pick it up</li>
+        <li>Drop a pento with a space</li>
+        <li>Pentos can't overlap</li>
+        <li>Pentos must be fully on the board</li>
+        <li>Rotate a pento with shift</li>
+        <li>Flip a pento with enter</li>
+        <li>Move a pento with arrow keys</li>
+      </ul>
+    </div>
+    """
+  end
+end
